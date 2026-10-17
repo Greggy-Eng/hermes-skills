@@ -1,7 +1,7 @@
 ---
 name: prd-authoring
 description: "Draft, refine, and proofread product requirements docs."
-version: 0.2.0
+version: 0.3.0
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [linux, macos, windows]
@@ -34,9 +34,9 @@ PRDs for company work are saved into the Obsidian vault (see obsidian skill) at 
 - **Assumptions are declared, never smuggled.** Anything assumed goes in an Assumptions section, flagged for confirmation.
 
 ## Origin mode
-0. Harvest context before asking: search the vault/repo/workspace for the company and project so interrogation covers only genuine gaps.
+0. Harvest context before asking: search the vault/repo/workspace for the company and project so interrogation covers only genuine gaps. When the work statement names a system with a live connector (ERP/accounting MCP, e.g. NetSuite — see netsuite-mcp), pull real records (saved searches, record metadata) before drafting so the spec grounds in the actual environment; if the connector's tools aren't injected in the current chat, say so in the delivery reply rather than silently drafting ungrounded.
 1. Open with the **work statement**: ask for 1–3 sentences in the requester's own words — who, what, outcome — of what this needs to accomplish (one open-ended ask, no choices; skip it if the request plus harvest already make it obvious, and restate for confirmation instead). Quote it verbatim in the doc header. It is the base of the whole PRD: every later question, requirement, and metric must trace back to it.
-2. Interrogate once with ≤6 questions via `clarify`, **derived from the work statement's gaps**: problem evidence, target users, success metrics, constraints (time/tech/legal), non-goals, scope horizon. Skip anything the work statement already answers (offering choices gets faster, fuller answers) — do not drip-feed follow-ups.
+2. Interrogate once with ≤5 questions (hard `clarify` cap) **derived from the work statement's gaps**: problem evidence, target users, success metrics, constraints (time/tech/legal), non-goals, scope horizon. Skip anything the work statement already answers (offering choices gets faster, fuller answers) — do not drip-feed follow-ups.
 3. Unanswered items become explicit Assumptions in the draft, not blank sections.
 4. Fill `templates/prd-template.md` section by section. Never invent requirements to fill space — "not specified" beats plausible fiction.
 5. Self-review before delivering: run the whole draft past `references/review-checklist.md`, fix your own red flags.
