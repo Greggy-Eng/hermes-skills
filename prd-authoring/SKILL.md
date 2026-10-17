@@ -1,7 +1,7 @@
 ---
 name: prd-authoring
 description: "Draft, refine, and proofread product requirements docs."
-version: 0.4.0
+version: 0.5.0
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [linux, macos, windows]
@@ -67,6 +67,7 @@ PRDs for company work are saved into the Obsidian vault (see obsidian skill) at 
 - Don't re-explain a rule at each use — bloat at the reader's expense; define once, cite the ID.
 - When refining, don't preserve structure that caused the ambiguity — collapse and renumber, updating cross-references.
 - When an answer promises detail it never delivers ("I'll name them"), don't stall or fire a second interrogation round — write the doc with explicit TBDs routed to Open Questions and ask for the missing names in the delivery reply.
+- When later stakeholder answers contradict an assumption in the draft, replace the assumption in place and mark it revised with what it supersedes — two contradictory assumptions must never coexist in the doc, and the change belongs in the delivery report as a flagged item.
 
 ## Verification
 - Origin: work statement quoted verbatim in the header; every template section present, non-empty, and succinct; every FR/NFR traceable and testable; assumptions exist where questions went unanswered.
