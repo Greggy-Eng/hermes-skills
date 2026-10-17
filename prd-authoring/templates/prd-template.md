@@ -2,6 +2,7 @@
 
 **Author:** · **Date:** · **Status:** Draft / In review / Approved
 **Stakeholders:**
+**Work statement:** <1–3 sentences, verbatim from the requester — who/what/outcome. The anchor every question, requirement, and metric traces back to.>
 
 ## 1. Problem
 What hurts, for whom, and why now. One paragraph, concrete nouns, no solution language.

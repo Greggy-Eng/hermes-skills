@@ -1,7 +1,7 @@
 ---
 name: prd-authoring
 description: "Draft, refine, and proofread product requirements docs."
-version: 0.1.0
+version: 0.2.0
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [linux, macos, windows]
@@ -20,6 +20,9 @@ Expert discipline for Product Requirements Documents in three modes: **origin** 
 - "Proof/read this before I send it" / final check, changes not wanted yet → proof mode
 - Don't use for: engineering design docs (how, not what), meeting notes → meeting-action-items, emails about a PRD → business-email-drafting.
 
+## Delivery (Greg)
+PRDs for company work are saved into the Obsidian vault (see obsidian skill) at `Companies/<Company>/Dev Specs/<name>.md`. Keep user-given filenames verbatim (e.g. `3PL_flow.md`) — do not normalize case or separators.
+
 ## Standing spec (the bar)
 - **Every requirement is testable.** "Fast load" fails; "p95 < 1.5s on mid-tier mobile" passes. If a sentence can't be verified by a test or an observation, it isn't a requirement.
 - **Metrics are baseline → target → timeframe.** No naked numbers.
@@ -31,11 +34,13 @@ Expert discipline for Product Requirements Documents in three modes: **origin** 
 - **Assumptions are declared, never smuggled.** Anything assumed goes in an Assumptions section, flagged for confirmation.
 
 ## Origin mode
-1. Interrogate once: problem, target users, success metrics, constraints (time/tech/legal), non-goals, scope horizon. One round of ≤6 questions — do not drip-feed follow-ups.
-2. Unanswered items become explicit Assumptions in the draft, not blank sections.
-3. Fill `templates/prd-template.md` section by section. Never invent requirements to fill space — "not specified" beats plausible fiction.
-4. Self-review before delivering: run the whole draft past `references/review-checklist.md`, fix your own red flags.
-5. Deliver the PRD + a short "open questions for stakeholders" list (this is what makes origin output feel expert).
+0. Harvest context before asking: search the vault/repo/workspace for the company and project so interrogation covers only genuine gaps.
+1. Open with the **work statement**: ask for 1–3 sentences in the requester's own words — who, what, outcome — of what this needs to accomplish (one open-ended ask, no choices; skip it if the request plus harvest already make it obvious, and restate for confirmation instead). Quote it verbatim in the doc header. It is the base of the whole PRD: every later question, requirement, and metric must trace back to it.
+2. Interrogate once with ≤6 questions via `clarify`, **derived from the work statement's gaps**: problem evidence, target users, success metrics, constraints (time/tech/legal), non-goals, scope horizon. Skip anything the work statement already answers (offering choices gets faster, fuller answers) — do not drip-feed follow-ups.
+3. Unanswered items become explicit Assumptions in the draft, not blank sections.
+4. Fill `templates/prd-template.md` section by section. Never invent requirements to fill space — "not specified" beats plausible fiction.
+5. Self-review before delivering: run the whole draft past `references/review-checklist.md`, fix your own red flags.
+6. Deliver the PRD + a short "open questions for stakeholders" list (this is what makes origin output feel expert).
 
 ## Refine mode
 1. Critique pass first, edits second: score each section against `references/review-checklist.md`; list gaps and violations with requirement IDs.
@@ -59,8 +64,9 @@ Expert discipline for Product Requirements Documents in three modes: **origin** 
 - Don't confuse user wants with user needs — requirements trace to a user job, not a feature request from a stakeholder.
 - Proof mode findings without requirement IDs are useless in a review meeting; always cite FR-x.
 - When refining, don't preserve structure that caused the ambiguity — collapse and renumber, updating cross-references.
+- When an answer promises detail it never delivers ("I'll name them"), don't stall or fire a second interrogation round — write the doc with explicit TBDs routed to Open Questions and ask for the missing names in the delivery reply.
 
 ## Verification
-- Origin: every template section present and non-empty; every FR/NFR testable per the standing spec; assumptions section exists if any question went unanswered.
+- Origin: work statement present in the header and quoted in the requester's own words; every template section present and non-empty; every FR/NFR traceable to the work statement or a goal and testable per the standing spec; assumptions section exists if any question went unanswered.
 - Refine: every 🔴/🟡 found in the critique pass is either fixed in the rewrite or listed in open questions.
 - Proof: every numbered requirement has a verdict; severity table complete; ship/no-ship line present.
