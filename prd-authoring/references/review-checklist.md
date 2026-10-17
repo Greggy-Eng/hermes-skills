@@ -30,6 +30,11 @@ Used by refine mode (critique pass) and proof mode (report) — keep them consis
 19. Must-haves distinguished from nice-to-haves; if everything is P1, nothing is. 🟡.
 20. Solution section doesn't outgrow the problem section (solution-first smell). 🟡.
 
+## Succinctness
+21. Sections ≤5 lines; assumptions/open questions ≤1 line each. 🟡 if grossly over.
+22. No concept explained twice — defined once, cited by ID elsewhere. 🟡.
+23. No sentence survives that could be cut without changing behavior. ⚪.
+
 ## Severity → ship gate
 - Any 🔴 = no-ship until resolved or explicitly accepted by owner.
 - 🟡 = fix before approval meeting; ⚪ = cosmetic.

@@ -1,7 +1,7 @@
 ---
 name: prd-authoring
 description: "Draft, refine, and proofread product requirements docs."
-version: 0.3.0
+version: 0.4.0
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [linux, macos, windows]
@@ -29,17 +29,18 @@ PRDs for company work are saved into the Obsidian vault (see obsidian skill) at 
 - **Non-goals are mandatory.** A PRD without them has unbounded scope; if the author left them out, infer them and mark *inferred*.
 - **No weasel words**: robust, seamless, intuitive, scalable, easy, modern. Either quantify or cut.
 - **One requirement per statement.** "and/or" = split into separate numbered requirements.
+- **Succinct throughout.** Every aspect of the doc — problem, solution, rationale, assumptions: one idea per sentence, sections ≤5 lines, each rule defined once and cited by ID (G1, FR3) thereafter. A sentence that changes no behavior gets cut.
 - **Specs say *what*, not *how*.** Implementation choices baked into requirement statements get flagged and rewritten to behavior level.
 - **Requirements are numbered** (FR-x / NFR-x / NG-x) so reviews can cite them unambiguously.
 - **Assumptions are declared, never smuggled.** Anything assumed goes in an Assumptions section, flagged for confirmation.
 
 ## Origin mode
-0. Harvest context before asking: search the vault/repo/workspace for the company and project so interrogation covers only genuine gaps. When the work statement names a system with a live connector (ERP/accounting MCP, e.g. NetSuite — see netsuite-mcp), pull real records (saved searches, record metadata) before drafting so the spec grounds in the actual environment; if the connector's tools aren't injected in the current chat, say so in the delivery reply rather than silently drafting ungrounded.
-1. Open with the **work statement**: ask for 1–3 sentences in the requester's own words — who, what, outcome — of what this needs to accomplish (one open-ended ask, no choices; skip it if the request plus harvest already make it obvious, and restate for confirmation instead). Quote it verbatim in the doc header. It is the base of the whole PRD: every later question, requirement, and metric must trace back to it.
+0. Harvest context before asking: search vault/repo/workspace — plus any live connector named in the work statement (e.g. NetSuite MCP, netsuite-mcp) for real records. If connector tools aren't injected in this chat, say so at delivery; never draft ungrounded in silence.
+1. Open with the **work statement**: 1–3 of the requester's own words — who, what, outcome. One open-ended ask, no choices; if request + harvest already make it obvious, restate for confirmation. Quote verbatim in the header — every question, requirement, and metric traces to it.
 2. Interrogate once with ≤5 questions (hard `clarify` cap) **derived from the work statement's gaps**: problem evidence, target users, success metrics, constraints (time/tech/legal), non-goals, scope horizon. Skip anything the work statement already answers (offering choices gets faster, fuller answers) — do not drip-feed follow-ups.
 3. Unanswered items become explicit Assumptions in the draft, not blank sections.
 4. Fill `templates/prd-template.md` section by section. Never invent requirements to fill space — "not specified" beats plausible fiction.
-5. Self-review before delivering: run the whole draft past `references/review-checklist.md`, fix your own red flags.
+5. Self-review before delivering: run the draft past `references/review-checklist.md`, fix your own flags, then cut wordiness.
 6. Deliver the PRD + a short "open questions for stakeholders" list (this is what makes origin output feel expert).
 
 ## Refine mode
@@ -63,10 +64,11 @@ PRDs for company work are saved into the Obsidian vault (see obsidian skill) at 
 - Don't let the solution section smuggle architecture into requirements ("use Redis for the cache" → "repeat lookups served in <Xms").
 - Don't confuse user wants with user needs — requirements trace to a user job, not a feature request from a stakeholder.
 - Proof mode findings without requirement IDs are useless in a review meeting; always cite FR-x.
+- Don't re-explain a rule at each use — bloat at the reader's expense; define once, cite the ID.
 - When refining, don't preserve structure that caused the ambiguity — collapse and renumber, updating cross-references.
 - When an answer promises detail it never delivers ("I'll name them"), don't stall or fire a second interrogation round — write the doc with explicit TBDs routed to Open Questions and ask for the missing names in the delivery reply.
 
 ## Verification
-- Origin: work statement present in the header and quoted in the requester's own words; every template section present and non-empty; every FR/NFR traceable to the work statement or a goal and testable per the standing spec; assumptions section exists if any question went unanswered.
+- Origin: work statement quoted verbatim in the header; every template section present, non-empty, and succinct; every FR/NFR traceable and testable; assumptions exist where questions went unanswered.
 - Refine: every 🔴/🟡 found in the critique pass is either fixed in the rewrite or listed in open questions.
 - Proof: every numbered requirement has a verdict; severity table complete; ship/no-ship line present.
