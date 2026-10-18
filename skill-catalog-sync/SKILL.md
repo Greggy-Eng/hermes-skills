@@ -1,7 +1,7 @@
 ---
 name: skill-catalog-sync
 description: "Keep runtime skills and GitHub skill catalog in sync."
-version: 1.1.0
+version: 1.2.0
 author: Greg (Greggy-Eng), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -22,14 +22,14 @@ Greg's skill library has two homes that must carry identical content. Editing on
 - Don't use for: authoring standards for upstream PRs to the Nous hermes-agent repo → hermes-agent-skill-authoring.
 
 ## The two homes
-- **Runtime (what actually loads):** `~/.hermes/skills/<skill-name>/`
+- **Runtime (what actually loads):** `~/.hermes/skills/<skill-name>/` — skills may sit under a category subfolder (`~/.hermes/skills/<category>/<skill-name>/`, e.g. `note-taking/`, `productivity/`); the repo is always flat `<skill-name>/`. Resolve the real runtime path with a glob (`ls -d ~/.hermes/skills/*<skill-name>/ ~/.hermes/skills/<skill-name>/ 2>/dev/null`) before copying or diffing, and strip the category segment when placing into the repo.
 - **Canonical catalog (source of record):** GitHub `Greggy-Eng/hermes-skills`, cloned at `~/Greggy-Eng/hermes-skills`, branch `main`, layout `<skill-name>/SKILL.md` (+ `references/`, `templates/`, `scripts/` subdirs).
 
 ## Procedure — every skill edit
 1. **Check drift first** in both copies before patching: `git fetch` + `git status -sb` in the repo, and read the runtime copy. The runtime copy is often *ahead* (skills get amended mid-task in live sessions); the repo may be ahead too. Diff them and merge the richer content forward before layering the new change.
 2. Apply the change to the runtime copy (`skill_manage patch`) or the repo copy, whichever the task started in.
 3. Bump the semver `version:` in frontmatter (patch = wording fix, minor = new step/mode/pitfall, major = redesign).
-4. **Copy the whole skill folder to the other home** so both trees are byte-identical (`cp -R`).
+4. **Copy the whole skill folder to the other home** so both trees are byte-identical (`cp -R`), then `find <repo-copy> -name .DS_Store -delete` before `git add`.
 5. Commit on `main` and push: message pattern `<skill-name> vX.Y.Z: <what changed>`. In-repo skills are source — an uncommitted skill edit is not durable.
 
 ## Rules & pitfalls
@@ -46,5 +46,5 @@ Greg's skill library has two homes that must carry identical content. Editing on
 
 ## Verification
 - `git status -sb` clean and level with `origin/main`.
-- `diff -r ~/Greggy-Eng/hermes-skills/<skill> ~/.hermes/skills/<skill>` reports no differences.
+- `diff -r ~/Greggy-Eng/hermes-skills/<skill> <resolved-runtime-path>` reports no differences (resolve the runtime path first — category subfolders make a naive `~/.hermes/skills/<skill>` path miss).
 - Frontmatter `version:` bumped and identical in both copies.
