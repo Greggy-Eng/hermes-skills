@@ -13,6 +13,8 @@ classDef color code: gates yellow, process blue, success/no-op green, refused re
 1. Write the mermaid block to a scratch file first.
 2. `curl -s -X POST https://kroki.io/mermaid/svg -H 'Content-Type: text/plain' --data-binary @file.mmd -o out.svg -w 'http:%{http_code}'` → 200 + SVG bytes = valid; 400 body carries `Parse error on line N`.
 3. Kroki throws intermittent HTTP 500 on valid input — retry once after a few seconds before suspecting the diagram.
+4. Always prepend the white-background init header: `%%{init: {"theme":"base","themeVariables":{"primaryTextColor":"#111111","primaryColor":"#ffffff","primaryBorderColor":"#888888","lineColor":"#555555","secondaryColor":"#f5f5f5","tertiaryColor":"#ffffff","background":"#ffffff"}}}%%` — Obsidian dark themes render default mermaid as black-on-black.
+5. Kroki PNGs come back transparent (alpha) even with background set — before storing a PNG, flatten onto white: Pillow `Image.alpha_composite(white_bg, im).convert("RGB")`. (JXA NSBitmapImageRep fails on the NULL planes arg — use Pillow; pip install pillow.)
 4. Only then write the `.md` to the vault; render PNG through the same endpoint for chat preview.
 
 ## Mermaid syntax traps (each cost a debug round)

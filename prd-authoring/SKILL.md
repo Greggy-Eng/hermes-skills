@@ -1,7 +1,7 @@
 ---
 name: prd-authoring
 description: "Draft, refine, and proofread product requirements docs."
-version: 0.7.0
+version: 0.7.1
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [linux, macos, windows]
