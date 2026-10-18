@@ -1,7 +1,7 @@
 ---
 name: prd-authoring
 description: "Draft, refine, and proofread product requirements docs."
-version: 0.5.0
+version: 0.7.0
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [linux, macos, windows]
@@ -18,10 +18,15 @@ Expert discipline for Product Requirements Documents in three modes: **origin** 
 - "Write me a PRD for…" / "spec out this feature" → origin mode
 - "Review/refine/tighten this PRD" / pasted draft asking for improvement → refine mode
 - "Proof/read this before I send it" / final check, changes not wanted yet → proof mode
+- "Merge my changes from <file> into the PRD" → refine mode, merge procedure (step 5)
+- "Build/update the workflow diagram" for a PRD → `references/diagrams.md`
 - Don't use for: engineering design docs (how, not what), meeting notes → meeting-action-items, emails about a PRD → business-email-drafting.
 
 ## Delivery (Greg)
 PRDs for company work are saved into the Obsidian vault (see obsidian skill) at `Companies/<Company>/Dev Specs/<name>.md`. Keep user-given filenames verbatim (e.g. `3PL_flow.md`) — do not normalize case or separators.
+- Version-control mirror: after each PRD version, copy it to GitHub `Greggy-Eng/PRD` (clone `~/Greggy-Eng/PRD`) at `<company>/<name>.md`, commit `<name> vX.Y.Z: <what changed>`, push. Vault is the working copy; the repo is history.
+- Timestamp stamps: every artifact edit refreshes an `**Updated:** YYYY-MM-DD HH:MM TZ` line under the doc title (get time via `date`; never guess). PRDs stamp it with the version; companion diagrams stamp it with the PRD version they are synced to.
+- File hygiene: one source file per artifact by default — an extra export (PNG/SVG) counts as clutter unless Greg asks for it; send renders in chat as preview, keep Mermaid `.md` as the vault source. Add image embeds only when he says "post to the vault".
 
 ## Standing spec (the bar)
 - **Every requirement is testable.** "Fast load" fails; "p95 < 1.5s on mid-tier mobile" passes. If a sentence can't be verified by a test or an observation, it isn't a requirement.
@@ -48,6 +53,7 @@ PRDs for company work are saved into the Obsidian vault (see obsidian skill) at 
 2. Rewrite applying the standing spec. Convert vague claims using `references/metric-patterns.md`.
 3. Deliver: revised doc + "what changed & why" bullet list (requirement ID → violation → fix). The reasoning is part of the deliverable — Greg learns the reviewer's bar.
 4. Add missing mandatory sections (Non-goals, Success metrics, Open questions) even if inferring their contents; label inferred content.
+5. Merging an author-supplied revision file (a "Mod"/annotated copy dropped beside the PRD): diff it against the current version, merge only the deltas into a new version, keep the author's requirement numbering verbatim even when nonstandard (FR6.5), and check every change against existing assumptions — one that conflicts supersedes the old assumption in place (marked, per the contradiction pitfall) and spawns a fresh Open Question if it opens policy doubt (e.g. print gate vs mandatory audit artifact). Deliver the merge as a "folded in / flagged" pair.
 
 ## Proof mode
 1. Report only — no silent fixes, no rewrite.
