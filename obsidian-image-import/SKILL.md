@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.2
+version: 1.0.3
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -54,7 +54,7 @@ Copy PNG/GIF/WEBP/JPG into the nested folder. Skip unprocessed `.heic`/`.svg`.
 Nested folder → `YYYY-MM-DD+{count}/`; Master file → `Master+{count}.md`. Update all links accordingly.
 
 ### Step 9: Create Master.md
-At `~/Greggy-AI/Reference/YYYY-MM-DD/Master+{count}.md` (PARENT folder, not nested): one Obsidian embed `![[YYYY-MM-DD+{count}/filename]]` per image. NEVER plain `![]()` Markdown links — screenshot filenames contain spaces and break them.
+At `~/Greggy-AI/Reference/YYYY-MM-DD/Master+{count}.md` (PARENT folder, not nested): one Obsidian embed per image. Use **bare-filename embeds** `![[filename.ext]]` when filenames are unique vault-wide (verify with `find "$VAULT" -name <f>` before writing); otherwise full-vault-path embeds `![[Reference/YYYY-MM-DD/YYYY-MM-DD+{count}/filename.ext]]`. NEVER plain `![]()` Markdown links (spaces break them) and NEVER note-relative paths like `![[folder/file]]` — Obsidian wikilink paths resolve from the vault root only (both cost live fixes 2026-10-18).
 
 ### Step 10: Move source files
 Move all source images from `/Users/greggy/Documents/Reference/` into `/Users/greggy/Documents/Reference/YYYY-MM-DD-source/` (or `_a`, `_b`, …). This keeps the active source folder clean.
@@ -80,7 +80,8 @@ Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Ski
 - Transparency in SVGs: convert RGBA → RGB before saving JPG
 - Naming uses `+` before count: `+15` folder, `Master+15.md` — not `_15+`
 - Master.md lives in the PARENT date folder
-- Embed syntax is wikilink `![[...]]`, not `![alt](path)` — plain Markdown links with spaces in paths render as broken in Obsidian (cost a live fix 2026-10-18)
+- Embed syntax: bare-filename wikilinks `![[file.png]]` (unique names) or full vault path `![[Reference/date/date+N/file.png]]`. NOT `![alt](path)` (spaces break), NOT note-relative `![[date+N/file]]` (wikilinks resolve from vault root only)
+- Filename-uniqueness check before writing bare embeds: `find ~/Greggy-AI -name "<file>"` must return exactly one hit
 - Rename folder/file with count AFTER copying, then rewrite every link in Master.md
 - Date format `%Y-%m-%d`; Knowledge-note timestamps in Eastern Time
 
