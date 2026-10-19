@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.8
+version: 1.0.9
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -57,7 +57,7 @@ Nested folder → `YYYY-MM-DD+{count}/`; Master file → `Master+{count}.md`. Up
 At `~/Greggy-AI/Reference/YYYY-MM-DD/Master+{count}.md` (PARENT folder, not nested): one Obsidian embed per image. Use **bare-filename embeds** `![[filename.ext]]` when filenames are unique vault-wide (verify with `find "$VAULT" -name <f>` before writing); otherwise full-vault-path embeds `![[Reference/YYYY-MM-DD/YYYY-MM-DD+{count}/filename.ext]]`. NEVER plain `![]()` Markdown links (spaces break them) and NEVER note-relative paths like `![[folder/file]]` — Obsidian wikilink paths resolve from the vault root only (both cost live fixes 2026-10-18).
 
 ### Step 10: Move source files
-Move all source images from `/Users/greggy/Documents/Reference/` into `/Users/greggy/Documents/Reference/YYYY-MM-DD-source/` (or `_a`, `_b`, …). This keeps the active source folder clean.
+Move all source images from `/Users/greggy/Documents/Reference/` into a source dated folder. **Never merge into an existing dated folder**: if `YYYY-MM-DD-source/` already exists (earlier run the same day, or a rebuild folder), create `YYYY-MM-DD-source_a/`, `_b`, … and move the new batch there — one dated folder per import batch, so batch membership and source history stay traceable. This keeps the active source folder clean.
 
 ### Final structure
 ```
@@ -88,6 +88,7 @@ Before telling the user images are visible, run one script asserting ALL of: (a)
 - Embed syntax: bare-filename wikilinks `![[file.png]]` (unique names) or full vault path `![[Reference/date/date+N/file.png]]`. NOT `![alt](path)` (spaces break), NOT note-relative `![[date+N/file]]` (wikilinks resolve from vault root only)
 - **Sanitize filenames on vault copy**: macOS screenshots use U+202F narrow no-break space before AM/PM — replace `\u202f`/`\u00a0` with plain space when copying into the vault (Obsidian link resolution normalizes the character and then fails to find the file). Keep originals untouched in the source -source folder.
 - Filename-uniqueness check before writing bare embeds: `find ~/Greggy-AI -name "<file>"` must return exactly one hit
+- Source dated folders are per-batch, never merged: existing `YYYY-MM-DD-source/` → new `_a`/`_b` sibling before moving (Greg, v1.0.9)
 - Rename folder/file with count AFTER copying, then rewrite every link in Master.md
 - Date format `%Y-%m-%d`; Knowledge-note timestamps in Eastern Time
 
