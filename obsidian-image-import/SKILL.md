@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.0
+version: 1.0.1
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -70,7 +70,7 @@ Move all source images from `/Users/greggy/Documents/Reference/` into `/Users/gr
 ```
 
 ### Step 11: Auto-sync to Knowledge
-Whenever this skill changes, rewrite `~/Greggy-AI/Knoweldge/Import Ref Image Skill.md` (vault folder is literally misspelled "Knoweldge" — match it) with first line `# Updated: YYYY-MM-DD HH:MM:SS ET`.
+Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Skill.md` with first line `# Updated: YYYY-MM-DD HH:MM:SS ET`. (Folder was renamed from the misspelled "Knoweldge" on 2026-10-18 — never use the old name.)
 
 ## Pitfalls
 - Import destination (`~/Greggy-AI/Reference/`) and source move destination (`/Users/greggy/Documents/Reference/…-source/`) are SEPARATE — never confuse them
