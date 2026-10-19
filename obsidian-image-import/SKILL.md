@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.4
+version: 1.0.5
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -73,6 +73,8 @@ Move all source images from `/Users/greggy/Documents/Reference/` into `/Users/gr
 Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Skill.md` with first line `# Updated: YYYY-MM-DD HH:MM:SS ET`. (Folder was renamed from the misspelled "Knoweldge" on 2026-10-18 — never use the old name.)
 
 ## Pitfalls
+- Obsidian cannot display HEIC inline — a `.heic` sitting in the vault is a guaranteed "image not visible" complaint. Scan the DESTINATION root for stray `.heic` too: convert via `sips` into the dated nested folder, embed the JPG, move the HEIC original to the source `-source` folder.
+- If the vault's prior dated folder vanished but the source `YYYY-MM-DD-source/` survives, rebuild the vault import from that folder — it is the source of record.
 - Import destination (`~/Greggy-AI/Reference/`) and source move destination (`/Users/greggy/Documents/Reference/…-source/`) are SEPARATE — never confuse them
 - Capital `Reference/` always
 - HEIC via `sips` only (not heif-convert/magick); originals never deleted from source
