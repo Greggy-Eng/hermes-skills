@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.1
+version: 1.0.2
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -54,7 +54,7 @@ Copy PNG/GIF/WEBP/JPG into the nested folder. Skip unprocessed `.heic`/`.svg`.
 Nested folder → `YYYY-MM-DD+{count}/`; Master file → `Master+{count}.md`. Update all links accordingly.
 
 ### Step 9: Create Master.md
-At `~/Greggy-AI/Reference/YYYY-MM-DD/Master+{count}.md` (PARENT folder, not nested): one `![filename](YYYY-MM-DD+{count}/filename)` line per image.
+At `~/Greggy-AI/Reference/YYYY-MM-DD/Master+{count}.md` (PARENT folder, not nested): one Obsidian embed `![[YYYY-MM-DD+{count}/filename]]` per image. NEVER plain `![]()` Markdown links — screenshot filenames contain spaces and break them.
 
 ### Step 10: Move source files
 Move all source images from `/Users/greggy/Documents/Reference/` into `/Users/greggy/Documents/Reference/YYYY-MM-DD-source/` (or `_a`, `_b`, …). This keeps the active source folder clean.
@@ -80,6 +80,7 @@ Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Ski
 - Transparency in SVGs: convert RGBA → RGB before saving JPG
 - Naming uses `+` before count: `+15` folder, `Master+15.md` — not `_15+`
 - Master.md lives in the PARENT date folder
+- Embed syntax is wikilink `![[...]]`, not `![alt](path)` — plain Markdown links with spaces in paths render as broken in Obsidian (cost a live fix 2026-10-18)
 - Rename folder/file with count AFTER copying, then rewrite every link in Master.md
 - Date format `%Y-%m-%d`; Knowledge-note timestamps in Eastern Time
 
