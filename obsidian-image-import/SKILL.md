@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.5
+version: 1.0.7
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -35,7 +35,7 @@ Before touching anything, print a summary: file counts by type, conversion plan,
 
 ### Step 3: Convert HEIC → JPG
 `sips -s format jpeg -s formatOptions best --out OUT.jpg IN.heic`
-Move the converted JPG to the nested folder (move, not copy). **Keep the original .heic in source.**
+Move the converted JPG to the nested folder (move, not copy). **Delete the original `.heic` from source once the JPG is confirmed in the vault** (magic-byte check `\xff\xd8\xff` first — never delete before the JPG lands).
 
 ### Step 4: Convert SVG → JPG
 `rsvg-convert -w 1920 -h 1080 -o output.jpg input.svg` (fallback: `magick input.svg -density 300 -depth 8 -quality 95 output.jpg` — may fail on text).
@@ -70,20 +70,23 @@ Move all source images from `/Users/greggy/Documents/Reference/` into `/Users/gr
 ```
 
 ### Step 11: Auto-sync to Knowledge
-Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Skill.md` with first line `# Updated: YYYY-MM-DD HH:MM:SS ET`. (Folder was renamed from the misspelled "Knoweldge" on 2026-10-18 — never use the old name.)
+Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Skill.md` with first line `# Updated: YYYY-MM-DD HH:MM:SS ET`. (The folder is `Knowledge` — an older misspelling circulated; do not resurrect it.)
+
+### Step 12: Verify visibility before reporting completion
+Before telling the user images are visible, run one script asserting ALL of: (a) every embed target in `Master+{count}.md` exists in the nested folder; (b) every file passes magic-byte validation (`\x89PNG` / `\xff\xd8\xff`); (c) every filename is ASCII-only; (d) zero `.heic` among embeds. Report success only when all four pass; name failures explicitly. Never claim "visible" on inference.
 
 ## Pitfalls
 - Obsidian cannot display HEIC inline — a `.heic` sitting in the vault is a guaranteed "image not visible" complaint. Scan the DESTINATION root for stray `.heic` too: convert via `sips` into the dated nested folder, embed the JPG, move the HEIC original to the source `-source` folder.
 - If the vault's prior dated folder vanished but the source `YYYY-MM-DD-source/` survives, rebuild the vault import from that folder — it is the source of record.
 - Import destination (`~/Greggy-AI/Reference/`) and source move destination (`/Users/greggy/Documents/Reference/…-source/`) are SEPARATE — never confuse them
 - Capital `Reference/` always
-- HEIC via `sips` only (not heif-convert/magick); originals never deleted from source
+- HEIC via `sips` only (not heif-convert/magick); HEIC originals ARE deleted after verified JPG placement (changed 2026-10-18 by Greg — replaces old keep-original rule)
 - SVG originals never enter the nested folder; JPG derivative only
 - Transparency in SVGs: convert RGBA → RGB before saving JPG
 - Naming uses `+` before count: `+15` folder, `Master+15.md` — not `_15+`
 - Master.md lives in the PARENT date folder
 - Embed syntax: bare-filename wikilinks `![[file.png]]` (unique names) or full vault path `![[Reference/date/date+N/file.png]]`. NOT `![alt](path)` (spaces break), NOT note-relative `![[date+N/file]]` (wikilinks resolve from vault root only)
-- **Sanitize filenames on vault copy**: macOS screenshots use U+202F narrow no-break space before AM/PM — replace `\u202f`/`\u00a0` with plain space when copying into the vault (Obsidian link resolution can normalize the char and then fail to find the file; cost a live fix 2026-10-18). Keep originals untouched in the source -source folder.
+- **Sanitize filenames on vault copy**: macOS screenshots use U+202F narrow no-break space before AM/PM — replace `\u202f`/`\u00a0` with plain space when copying into the vault (Obsidian link resolution normalizes the character and then fails to find the file). Keep originals untouched in the source -source folder.
 - Filename-uniqueness check before writing bare embeds: `find ~/Greggy-AI -name "<file>"` must return exactly one hit
 - Rename folder/file with count AFTER copying, then rewrite every link in Master.md
 - Date format `%Y-%m-%d`; Knowledge-note timestamps in Eastern Time
