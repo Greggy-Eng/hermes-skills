@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.9
+version: 1.1.0
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -24,6 +24,9 @@ Requests like: "add the images from ~/reference to notetaker", "import images to
 - **Source folder**: `/Users/greggy/Documents/Reference/`
 - **macOS tools**: `sips` (HEIC→JPG, built-in), `rsvg-convert` (librsvg, SVG→JPG — `brew install librsvg`), `magick` (ImageMagick, whitespace trim)
 - **Python**: `os`, `shutil`, `datetime`
+
+## How to Run
+`terminal(command="python3 {SKILL_DIR}/scripts/import_ref_images.py", timeout=120)` — DRY-RUN plan (counts, conversions, paths, tool check). With `--apply` it executes steps 3–10 + step-12 verification; exit 0 = verified visible, non-zero = named failures. Flags: `--source/--vault/--date/--apply` (defaults: `~/Documents/Reference`, `~/Greggy-AI`, today). Steps 2 (approval), 11 (Knowledge stamp), and reporting the output stay with the agent.
 
 ## Workflow
 
