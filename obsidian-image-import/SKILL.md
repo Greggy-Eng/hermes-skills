@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.3
+version: 1.0.4
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -81,6 +81,7 @@ Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Ski
 - Naming uses `+` before count: `+15` folder, `Master+15.md` — not `_15+`
 - Master.md lives in the PARENT date folder
 - Embed syntax: bare-filename wikilinks `![[file.png]]` (unique names) or full vault path `![[Reference/date/date+N/file.png]]`. NOT `![alt](path)` (spaces break), NOT note-relative `![[date+N/file]]` (wikilinks resolve from vault root only)
+- **Sanitize filenames on vault copy**: macOS screenshots use U+202F narrow no-break space before AM/PM — replace `\u202f`/`\u00a0` with plain space when copying into the vault (Obsidian link resolution can normalize the char and then fail to find the file; cost a live fix 2026-10-18). Keep originals untouched in the source -source folder.
 - Filename-uniqueness check before writing bare embeds: `find ~/Greggy-AI -name "<file>"` must return exactly one hit
 - Rename folder/file with count AFTER copying, then rewrite every link in Master.md
 - Date format `%Y-%m-%d`; Knowledge-note timestamps in Eastern Time
