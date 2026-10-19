@@ -1,7 +1,7 @@
 ---
 name: obsidian-image-import
 description: "Use for Obsidian image imports: dated folders, HEIC/SVG."
-version: 1.0.7
+version: 1.0.8
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [macos]
@@ -35,7 +35,7 @@ Before touching anything, print a summary: file counts by type, conversion plan,
 
 ### Step 3: Convert HEIC → JPG
 `sips -s format jpeg -s formatOptions best --out OUT.jpg IN.heic`
-Move the converted JPG to the nested folder (move, not copy). **Delete the original `.heic` from source once the JPG is confirmed in the vault** (magic-byte check `\xff\xd8\xff` first — never delete before the JPG lands).
+Move the converted JPG to the nested folder (move, not copy). **HEIC originals are NEVER deleted from the source folder** — they are the camera's master copies. Deletion applies only to the DESTINATION side: any HEIC that exists in the vault (copied in, or found stray at `Reference/` root) is converted to JPG into the dated nested folder, and the vault-side HEIC is deleted only after the JPG passes magic-byte check (`\xff\xd8\xff`).
 
 ### Step 4: Convert SVG → JPG
 `rsvg-convert -w 1920 -h 1080 -o output.jpg input.svg` (fallback: `magick input.svg -density 300 -depth 8 -quality 95 output.jpg` — may fail on text).
@@ -76,11 +76,11 @@ Whenever this skill changes, rewrite `~/Greggy-AI/Knowledge/Import Ref Image Ski
 Before telling the user images are visible, run one script asserting ALL of: (a) every embed target in `Master+{count}.md` exists in the nested folder; (b) every file passes magic-byte validation (`\x89PNG` / `\xff\xd8\xff`); (c) every filename is ASCII-only; (d) zero `.heic` among embeds. Report success only when all four pass; name failures explicitly. Never claim "visible" on inference.
 
 ## Pitfalls
-- Obsidian cannot display HEIC inline — a `.heic` sitting in the vault is a guaranteed "image not visible" complaint. Scan the DESTINATION root for stray `.heic` too: convert via `sips` into the dated nested folder, embed the JPG, move the HEIC original to the source `-source` folder.
+- Obsidian cannot display HEIC inline — a `.heic` sitting in the vault is a guaranteed "image not visible" complaint. Scan the DESTINATION root for stray `.heic`: convert via `sips` into the dated nested folder, embed the JPG, then REMOVE the vault-side HEIC (relocate to the source `-source/` folder if it has no source copy yet — vault stays HEIC-free, source keeps masters).
 - If the vault's prior dated folder vanished but the source `YYYY-MM-DD-source/` survives, rebuild the vault import from that folder — it is the source of record.
 - Import destination (`~/Greggy-AI/Reference/`) and source move destination (`/Users/greggy/Documents/Reference/…-source/`) are SEPARATE — never confuse them
 - Capital `Reference/` always
-- HEIC via `sips` only (not heif-convert/magick); HEIC originals ARE deleted after verified JPG placement (changed 2026-10-18 by Greg — replaces old keep-original rule)
+- HEIC via `sips` only (not heif-convert/magick). Deletion policy (Greg, clarified v1.0.8): source HEICs are KEPT forever; vault-side HEICs are deleted after verified JPG conversion. Source = masters, destination = JPGs only.
 - SVG originals never enter the nested folder; JPG derivative only
 - Transparency in SVGs: convert RGBA → RGB before saving JPG
 - Naming uses `+` before count: `+15` folder, `Master+15.md` — not `_15+`
