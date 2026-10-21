@@ -1,7 +1,7 @@
 ---
 name: meeting-audio-transcription
 description: Transcribe meeting audio/video and summarize to notes.
-version: 1.2.0
+version: 1.3.0
 author: Hermes Agent
 license: MIT
 platforms: [macos]
@@ -57,6 +57,7 @@ Read the WHOLE transcript (paginated `read_file` — an 89-min meeting is ~95 KB
 5. `## Action items` — markdown table `| Owner | Action |` with deadlines where stated.
 6. `## Schedule notes` (next session, cadence) if discussed.
 Capture concrete specifics (numbers, module names, settings, passwords shared in calls, deadlines) — Greg treats these notes as the project record. Keep timestamps ONLY in the header stamp and in the attached full transcript — no per-section or per-item timestamps in the summary.
+Whisper garbles proper nouns (people, companies, product names) into near-homophones — transcribe them as heard but end the chat report with a short "names to verify" list of the uncertain ones instead of silently guessing spellings.
 
 ## Step 6 — Route into the vault
 - Destination folder dictated by Greg → use EXACTLY as typed (see obsidian skill for vault conventions: `~/Greggy-AI`).
@@ -71,3 +72,4 @@ Capture concrete specifics (numbers, module names, settings, passwords shared in
 - Scrubbing/verification: transcript file should have roughly `duration_secs / 3` lines; wildly fewer = something failed.
 - Summary timestamp style (Greg's preference): ONE meeting stamp at the top (date + local start + duration); no inline timestamps in sections, decisions, or action items — granular timing lives in the attached transcript only.
 - Version bump pattern for this skill: doc-structure additions are minor — patch content and bump the patch/minor version in frontmatter.
+- Watch-pattern notifications can arrive AFTER the job's output was already consumed (e.g. via an explicit wait). On any DONE ping, first check whether the transcript/summary already exist and were filed — re-run nothing that is already done.
