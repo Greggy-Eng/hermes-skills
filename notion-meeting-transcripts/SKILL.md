@@ -1,7 +1,7 @@
 ---
 name: notion-meeting-transcripts
 description: "Read Notion meeting pages/transcripts; find pages by title."
-version: 1.3.0
+version: 1.4.0
 author: Greggy (Hermes Agent)
 license: MIT
 platforms: [linux, macos, windows]
@@ -20,7 +20,8 @@ Greg shares a Notion page link to a recorded meeting (e.g. "RFSmart Meeting") �
 2. `connectors__notion__FETCH_BLOCK_CONTENTS` on the page ID (parameter name is `block_id`, not `page_id`) → look for a block of `type: "transcription"`. Its `transcription.children` gives `summary_block_id`, `notes_block_id`, `transcript_block_id`; `transcription.recording.start_time` is the meeting start.
 3. Fetch the **summary** block for the structured recap (headings, to-dos with owners, bullets, quotes). Fetch the **transcript** block only if raw dialogue is needed — it paginates at 100 blocks (pass `start_cursor`/`page_size`).
 4. Large transcript fetches spill to a file — parse the JSON with code, don't re-request.
-5. Deliver the summary in chat. Loomstate meeting summaries are filed routinely into the vault (obsidian skill routing: WMS/shipping meetings → `Companies/Loomstate/WMS Project/`, matching sibling naming `Title_Summary_YYYY-MM-DD.md`) — file directly and state the path, don't ask whether to save; Greg expects the note to already be there when he checks the folder.
+5. Deliver the summary in chat. Loomstate meeting summaries are filed routinely into the vault (obsidian skill routing: WMS/shipping meetings → `Companies/Loomstate/WMS Project/Shipping/` — Greg consolidated all meeting summaries into the Shipping subfolder), matching sibling naming `Title_Summary_YYYY-MM-DD.md`; file directly and state the path, don't ask whether to save.
+6. Verbatim vs restructured: when Greg asks for the summary itself ("the exact version that is in Notion, not the one you summarized"), copy the summary block verbatim into a SEPARATE dated file (e.g. `Title_Notion_Summary_YYYY-MM-DD.md`) alongside the restructured note — don't replace it. Preserve Notion's block order, bold/italic marks, to-do checkboxes, and dividers; fetch children of nested bullets (they're omitted from top-level fetches); flag inline when the API returns empty table cells (Notion tables often don't serialize — the rows are only visible on the page).
 
 ## Images/slides in the page
 - Images appear as `image` blocks (they can be added AFTER the meeting — re-fetch if Greg references a newly inserted slide).
